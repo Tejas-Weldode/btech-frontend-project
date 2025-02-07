@@ -3,6 +3,7 @@ import { useAuthContext } from "./context/authContext.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Compare from "./pages/Compare.jsx";
+import Playlist from "./pages/Playlist.jsx";
 
 function App() {
     const { accessToken } = useAuthContext();
@@ -19,6 +20,10 @@ function App() {
                 <Route
                     path="/compare"
                     element={accessToken ? <Compare /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/playlist"
+                    element={accessToken ? <Playlist /> : <Navigate to="/" />}
                 />
                 <Route
                     path="/"

@@ -83,6 +83,7 @@ function Home() {
             <h1>Home</h1>
             <button onClick={handleLogout}>Logout</button>
             <Link to="/compare">Compare</Link>
+            <Link to="/playlist">Playlist</Link>
 
             <form onSubmit={handleSubmit}>
                 <label>
