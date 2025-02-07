@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import comments from "../../comments.js";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+
+import CommentCard from "../components/CommentCard.jsx";
 
 import { useAuthContext } from "../context/authContext.jsx";
 
 function Home() {
     const { accessToken } = useAuthContext();
-    const [comments, setComments] = useState([]);
-
     const navigate = useNavigate();
+
+    const [comments, setComments] = useState([]);
     const [data, setData] = useState(null);
+    const [videoId, setVideoId] = useState("");
 
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
@@ -18,16 +20,15 @@ function Home() {
         alert("Access token removed!");
     };
 
-    const getComments = async () => {
+    const getComments = async (videoId) => {
         try {
             console.log("getComments running");
-            // NOTE: wrote the params in a new style
             const response = await axios.get(
                 `https://www.googleapis.com/youtube/v3/commentThreads`,
                 {
                     params: {
                         part: "snippet",
-                        videoId: "s4ET7Vn3nz4",
+                        videoId: videoId,
                         maxResults: 20,
                     },
                     headers: {
@@ -56,12 +57,20 @@ function Home() {
         }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await getComments(); // Fetch comments first
-        };
-        fetchData();
-    }, [accessToken]); // Run the effect when accessToken changes
+    const extractVideoId = (url) => {
+        const match = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+        return match ? match[1] : null;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent form from refreshing the page
+        const extractedVideoId = extractVideoId(videoId); // Extract video ID from URL
+        if (extractedVideoId) {
+            await getComments(extractedVideoId); // Fetch comments for the extracted videoId
+        } else {
+            alert("Invalid YouTube URL");
+        }
+    };
 
     useEffect(() => {
         if (comments.length > 0) {
@@ -73,6 +82,31 @@ function Home() {
         <>
             <h1>Home</h1>
             <button onClick={handleLogout}>Logout</button>
+            <Link to="/compare">Compare</Link>
+
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Enter YouTube Video ID:
+                    <input
+                        type="text"
+                        value={videoId}
+                        onChange={(e) => setVideoId(e.target.value)}
+                        placeholder="Enter video ID"
+                    />
+                </label>
+                <button type="submit">Fetch Comments</button>
+            </form>
+
+            <div>
+                {data && data.data ? (
+                    data.data.map((comment, index) => (
+                        <CommentCard key={index} comment={comment} />
+                    ))
+                ) : (
+                    <p>No comments to display</p>
+                )}
+            </div>
+
             {data ? <pre>{JSON.stringify(data.data, null, 2)}</pre> : ""}
         </>
     );
