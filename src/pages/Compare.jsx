@@ -51,6 +51,19 @@ function Compare() {
                     }
                 );
 
+                console.log(
+                    "commentsResponse.data.items",
+                    commentsResponse.data.items
+                );
+
+                // Get these comments rated
+                const ratedComments = await axios.post(
+                    "http://127.0.0.1:5000/predict",
+                    commentsResponse.data.items
+                );
+
+                console.log("ratedComments", ratedComments);
+
                 // Store video details and comments
                 fetchedData.push({
                     videoId,
@@ -60,10 +73,8 @@ function Compare() {
                     thumbnail:
                         videoResponse.data.items[0]?.snippet.thumbnails.medium
                             .url || "",
-                    comments: commentsResponse.data.items || [],
+                    comments: ratedComments.data || [],
                 });
-
-                
             } catch (error) {
                 console.error(
                     `Error fetching data for video ${videoId}`,
