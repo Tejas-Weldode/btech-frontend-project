@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import comments from "../../comments.js";
+// import comments from "../../comments.js";
 import axios from "axios";
 
 import { useAuthContext } from "../context/authContext.jsx";
 
 function Home() {
     const { accessToken } = useAuthContext();
+    const [comments, setComments] = useState([]);
 
     const navigate = useNavigate();
     const [data, setData] = useState(null);
@@ -34,7 +35,8 @@ function Home() {
                     },
                 }
             );
-            console.log("getComments", response);
+            setComments(response.data.items);
+            console.log("getComments", response.data.items);
         } catch (error) {
             console.error("Error in getComments", error);
         }
@@ -54,14 +56,18 @@ function Home() {
         }
     };
 
-    const handleComments = async () => {
-        await getComments();
-        await getRatedComments();
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            await getComments(); // Fetch comments first
+        };
+        fetchData();
+    }, [accessToken]); // Run the effect when accessToken changes
 
     useEffect(() => {
-        handleComments();
-    }, []);
+        if (comments.length > 0) {
+            getRatedComments(); // Fetch rated comments after comments state is updated
+        }
+    }, [comments]); // Run this effect when comments state changes
 
     return (
         <>
