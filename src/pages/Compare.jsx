@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../context/authContext.jsx";
 import CommentCard from "../components/CommentCard";
+import "./Compare.css";
 
 function Compare() {
     const { accessToken } = useAuthContext();
@@ -101,7 +102,7 @@ function Compare() {
     };
 
     return (
-        <div className="compare-container">
+        <div className="container compare-container">
             <h1>Compare Videos</h1>
 
             <div className="inputs-container">
@@ -119,14 +120,13 @@ function Compare() {
 
                 {videoLinks.length < 4 && (
                     <button onClick={addInputField} className="add-button">
-                        ➕
+                        +
                     </button>
                 )}
+                <button onClick={fetchVideoData} className="analyze-button">
+                    Analyze
+                </button>
             </div>
-
-            <button onClick={fetchVideoData} className="analyze-button">
-                Analyze
-            </button>
 
             <div className="results-container">
                 {videoData.length > 0 &&

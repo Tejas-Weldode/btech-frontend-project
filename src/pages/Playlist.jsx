@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../context/authContext.jsx";
 import CommentCard from "../components/CommentCard";
+import "./Playlist.css";
 
 function Playlist() {
     const { accessToken } = useAuthContext();
@@ -89,18 +90,23 @@ function Playlist() {
     };
 
     return (
-        <div className="playlist-container">
-            <h1>Analyze YouTube Playlist</h1>
+        <div className="container playlist-container">
+            <div className="main-container">
+                <h1>Analyze YouTube Playlist</h1>
 
-            <input
-                type="text"
-                value={playlistLink}
-                onChange={(e) => setPlaylistLink(e.target.value)}
-                placeholder="Enter YouTube playlist link"
-            />
-            <button onClick={fetchPlaylistVideos} className="analyze-button">
-                Analyze Playlist
-            </button>
+                <input
+                    type="text"
+                    value={playlistLink}
+                    onChange={(e) => setPlaylistLink(e.target.value)}
+                    placeholder="Enter YouTube playlist link"
+                />
+                <button
+                    onClick={fetchPlaylistVideos}
+                    className="analyze-button"
+                >
+                    Analyze Playlist
+                </button>
+            </div>
 
             <div className="results-container">
                 {videoData.length > 0 &&

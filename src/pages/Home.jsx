@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import "./Home.css"
 
 import CommentCard from "../components/CommentCard.jsx";
 
@@ -13,12 +14,7 @@ function Home() {
     const [comments, setComments] = useState([]);
     const [data, setData] = useState(null);
     const [videoId, setVideoId] = useState("");
-
-    const handleLogout = () => {
-        localStorage.removeItem("accessToken");
-        navigate("/");
-        alert("Access token removed!");
-    };
+    
 
     const getComments = async (videoId) => {
         try {
@@ -79,15 +75,12 @@ function Home() {
     }, [comments]); // Run this effect when comments state changes
 
     return (
-        <>
-            <h1>Home</h1>
-            <button onClick={handleLogout}>Logout</button>
-            <Link to="/compare">Compare</Link>
-            <Link to="/playlist">Playlist</Link>
+        <div className="container home-container">
+            <h1>Analyze Video</h1>
 
             <form onSubmit={handleSubmit}>
-                <label>
-                    Enter YouTube Video ID:
+                <label className="text-bold">
+                    Enter YouTube Video ID: 
                     <input
                         type="text"
                         value={videoId}
@@ -98,18 +91,18 @@ function Home() {
                 <button type="submit">Fetch Comments</button>
             </form>
 
-            <div>
+            <div className="comment-section">
                 {data && data.data ? (
                     data.data.map((comment, index) => (
                         <CommentCard key={index} comment={comment} />
                     ))
                 ) : (
-                    <p>No comments to display</p>
+                    <p className="no-comments">No comments to display</p>
                 )}
             </div>
 
-            {data ? <pre>{JSON.stringify(data.data, null, 2)}</pre> : ""}
-        </>
+            {/* {data ? <pre>{JSON.stringify(data.data, null, 2)}</pre> : ""} */}
+        </div>
     );
 }
 

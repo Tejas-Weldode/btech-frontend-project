@@ -1,5 +1,6 @@
 // src/components/CommentCard.jsx
 import React from "react";
+import "./CommentCard.css"
 
 const CommentCard = ({ comment }) => {
     return (

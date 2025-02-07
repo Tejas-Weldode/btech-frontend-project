@@ -1,0 +1,25 @@
+/* Home Page Styling */
+.home-container {
+    text-align: center;
+}
+
+.no-comments {
+    font-size: 18px;
+    color: #9ca3af; /* Light Gray */
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .home-container {
+        padding: 30px 20px;
+    }
+
+    input[type="text"] {
+        width: 80%;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        font-size: 16px;
+    }
+}

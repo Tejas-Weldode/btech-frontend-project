@@ -4,13 +4,14 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Compare from "./pages/Compare.jsx";
 import Playlist from "./pages/Playlist.jsx";
+import Navbar from "./components/Navbar.jsx";
 
 function App() {
     const { accessToken } = useAuthContext();
 
     return (
         <>
-            <h1>Educational Videos Comments Analyzer</h1>
+            <Navbar />
 
             <Routes>
                 <Route
