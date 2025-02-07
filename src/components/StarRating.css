@@ -1,0 +1,44 @@
+.star-rating {
+    font-weight: bold;
+    font-size:larger;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    animation: fillStars 1s ease-in-out;
+}
+
+.stars{
+    font-size: 3rem;
+    color: #f1c40f;
+}
+
+.star {
+    transition: color 0.3s ease;
+}
+
+.star.filled {
+    color: #f39c12; /* Golden color for filled stars */
+}
+
+.star.half {
+    color: #f39c12; /* Golden color for half-filled stars */
+    clip-path: inset(0 50% 0 0); /* Create half-star effect */
+}
+
+.star.empty {
+    color: #bdc3c7; /* Grey color for empty stars */
+}
+
+/* Animation for star filling */
+@keyframes fillStars {
+    from {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

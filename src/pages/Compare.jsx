@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuthContext } from "../context/authContext.jsx";
 import CommentCard from "../components/CommentCard";
 import "./Compare.css";
+import StarRating from "../components/StarRating"; // Import the StarRating component
 
 function Compare() {
     const { accessToken } = useAuthContext();
@@ -65,6 +66,14 @@ function Compare() {
 
                 console.log("ratedComments", ratedComments);
 
+                // Calculate the average quality rating for this video
+                const qualityRatings = ratedComments.data.map(
+                    (comment) => comment.quality
+                );
+                const averageQuality =
+                    qualityRatings.reduce((acc, rating) => acc + rating, 0) /
+                    qualityRatings.length;
+
                 // Store video details and comments
                 fetchedData.push({
                     videoId,
@@ -75,6 +84,7 @@ function Compare() {
                         videoResponse.data.items[0]?.snippet.thumbnails.medium
                             .url || "",
                     comments: ratedComments.data || [],
+                    averageQuality: averageQuality.toFixed(2), // Store average quality
                 });
             } catch (error) {
                 console.error(
@@ -134,6 +144,18 @@ function Compare() {
                         <div key={video.videoId} className="video-column">
                             <img src={video.thumbnail} alt="Thumbnail" />
                             <h3>{video.title}</h3>
+
+                            {/* Display the star rating based on the average quality */}
+                            {video.averageQuality && (
+                                <div className="average-quality">
+                                    <StarRating
+                                        rating={parseFloat(
+                                            video.averageQuality
+                                        )} // Pass average quality as rating
+                                    />
+                                </div>
+                            )}
+
                             <div className="comments">
                                 {video.comments.length > 0 ? (
                                     video.comments.map((comment, index) => (

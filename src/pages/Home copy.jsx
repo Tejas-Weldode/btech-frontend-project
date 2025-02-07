@@ -4,7 +4,6 @@ import axios from "axios";
 import "./Home.css";
 
 import CommentCard from "../components/CommentCard.jsx";
-import StarRating from "../components/StarRating.jsx"; // Import the new StarRating component
 
 import { useAuthContext } from "../context/authContext.jsx";
 
@@ -103,8 +102,7 @@ function Home() {
             {/* Display average quality rating before the comments */}
             {averageQuality !== null && (
                 <div className="average-quality">
-                    <StarRating rating={parseFloat(averageQuality)} />{" "}
-                    {/* Pass rating to the StarRating component */}
+                    <h2>Average Quality Rating: {averageQuality} / 5</h2>
                 </div>
             )}
 

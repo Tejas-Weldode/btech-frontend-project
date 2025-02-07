@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../context/authContext.jsx";
 import CommentCard from "../components/CommentCard";
+import StarRating from "../components/StarRating"; // Import the StarRating component
 import "./Playlist.css";
 
 function Playlist() {
@@ -74,9 +75,25 @@ function Playlist() {
                     commentsResponse.data.items
                 );
 
+                console.log(ratedComments.data);
+
+                // Calculate average rating for the comments
+                const averageRating = ratedComments.data.reduce(
+                    (acc, comment) => acc + comment.quality,
+                    0
+                );
+
+                console.log(ratedComments.data);
+
+                const avgRating =
+                    ratedComments.data.length > 0
+                        ? averageRating / ratedComments.data.length
+                        : 0; // Prevent division by zero
+
                 fetchedData.push({
                     ...video,
                     comments: ratedComments.data || [],
+                    averageRating: avgRating.toFixed(2), // Store the average rating
                 });
             } catch (error) {
                 console.error(
@@ -114,7 +131,13 @@ function Playlist() {
                         <div key={video.videoId} className="video-column">
                             <img src={video.thumbnail} alt="Thumbnail" />
                             <h3>{video.title}</h3>
-                            <div className="comments">
+
+                            {/* Display Star Rating for the video */}
+                            <div className="star-rating">
+                                <StarRating rating={video.averageRating} />
+                            </div>
+
+                            {/* <div className="comments">
                                 {video.comments.length > 0 ? (
                                     video.comments.map((comment, index) => (
                                         <CommentCard
@@ -125,7 +148,7 @@ function Playlist() {
                                 ) : (
                                     <p>No comments available</p>
                                 )}
-                            </div>
+                            </div> */}
                         </div>
                     ))}
             </div>
