@@ -8,3 +8,5 @@
 7. useState
 8. react-router-dom, axios, dotenv
 9. custom hooks
+
+10. Python 3.12.8
