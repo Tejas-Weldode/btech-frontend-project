@@ -89,7 +89,7 @@ function Home() {
 
             <form onSubmit={handleSubmit}>
                 <label className="text-bold">
-                    Enter YouTube Video ID:
+                    Enter YouTube Video Link:
                     <input
                         type="text"
                         value={videoId}
