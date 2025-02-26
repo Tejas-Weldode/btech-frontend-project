@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { redirect } from "react-router-dom";
+import "./Login.css"
 
 import useGoogleOAuth from "../hooks/useGoogleOAuth.js";
 import { useAuthContext } from "../context/authContext.jsx";
@@ -18,7 +19,7 @@ function Login() {
             {accessToken ? (
                 ""
             ) : (
-                <div>
+                <div className="login-box">
                     <h1>Login</h1>
                     <button onClick={login}>Login with Google</button>
                 </div>
