@@ -1,7 +1,7 @@
 import React from "react";
 import "./StarRating.css"; // We will define the CSS here for styling
 
-function StarRating({ rating }) {
+function StarRating({ rating, heading }) {
     // Ensure the rating is a number and between 0 and 5
     const validRating = Math.max(0, Math.min(5, rating));
 
@@ -13,7 +13,7 @@ function StarRating({ rating }) {
 
         return (
             <>
-                <div>Average Quality Rating</div>
+                <div>{heading}</div>
                 <div>{rating}/5</div>
                 <div className="stars">
                     {[...Array(filledStars)].map((_, index) => (

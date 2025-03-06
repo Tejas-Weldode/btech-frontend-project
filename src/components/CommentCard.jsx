@@ -11,6 +11,7 @@ const CommentCard = ({ comment }) => {
             <p>Likes: {comment.snippet.topLevelComment.snippet.likeCount}</p>
             {/* <p>Difficulty: {comment.difficulty}</p> */}
             <p>Quality: {comment.quality}</p>
+            <p>Difficulty: {comment.difficulty}</p>
         </div>
     );
 };

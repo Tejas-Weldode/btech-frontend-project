@@ -77,23 +77,33 @@ function Playlist() {
 
                 console.log(ratedComments.data);
 
-                // Calculate average rating for the comments
-                const averageRating = ratedComments.data.reduce(
+                // Calculate average quality for the comments
+                const averageQuality = ratedComments.data.reduce(
                     (acc, comment) => acc + comment.quality,
                     0
                 );
+                const averageQualityRating =
+                    ratedComments.data.length > 0
+                        ? averageQuality / ratedComments.data.length
+                        : 0; // Prevent division by zero
+
+                // Calculate average difficulty for the comments
+                const averageDifficulty = ratedComments.data.reduce(
+                    (acc, comment) => acc + comment.difficulty,
+                    0
+                );
+                const averageDifficultyRating =
+                    ratedComments.data.length > 0
+                        ? averageDifficulty / ratedComments.data.length
+                        : 0; // Prevent division by zero
 
                 console.log(ratedComments.data);
-
-                const avgRating =
-                    ratedComments.data.length > 0
-                        ? averageRating / ratedComments.data.length
-                        : 0; // Prevent division by zero
 
                 fetchedData.push({
                     ...video,
                     comments: ratedComments.data || [],
-                    averageRating: avgRating.toFixed(2), // Store the average rating
+                    averageQualityRating: averageQualityRating.toFixed(2), // Store the average rating
+                    averageDifficultyRating: averageDifficultyRating.toFixed(2), // Store the average rating
                 });
             } catch (error) {
                 console.error(
@@ -134,7 +144,18 @@ function Playlist() {
 
                             {/* Display Star Rating for the video */}
                             <div className="star-rating">
-                                <StarRating rating={video.averageRating} />
+                                <StarRating
+                                    heading={"Quality"}
+                                    rating={video.averageQualityRating}
+                                />
+                            </div>
+
+                            {/* Display Star Rating for the video */}
+                            <div className="star-rating">
+                                <StarRating
+                                    heading={"Difficulty"}
+                                    rating={video.averageDifficultyRating}
+                                />
                             </div>
 
                             {/* <div className="comments">

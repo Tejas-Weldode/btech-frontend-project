@@ -74,6 +74,14 @@ function Compare() {
                     qualityRatings.reduce((acc, rating) => acc + rating, 0) /
                     qualityRatings.length;
 
+                // Calculate the average difficulty rating for this video
+                const difficultyRatings = ratedComments.data.map(
+                    (comment) => comment.difficulty
+                );
+                const averageDifficulty =
+                    difficultyRatings.reduce((acc, rating) => acc + rating, 0) /
+                    difficultyRatings.length;
+
                 // Store video details and comments
                 fetchedData.push({
                     videoId,
@@ -85,6 +93,7 @@ function Compare() {
                             .url || "",
                     comments: ratedComments.data || [],
                     averageQuality: averageQuality.toFixed(2), // Store average quality
+                    averageDifficulty: averageDifficulty.toFixed(2), // Store average quality
                 });
             } catch (error) {
                 console.error(
@@ -149,8 +158,21 @@ function Compare() {
                             {video.averageQuality && (
                                 <div className="average-quality">
                                     <StarRating
+                                        heading={"Quality"}
                                         rating={parseFloat(
                                             video.averageQuality
+                                        )} // Pass average quality as rating
+                                    />
+                                </div>
+                            )}
+
+                            {/* Display the star rating based on the average difficulty */}
+                            {video.averageDifficulty && (
+                                <div className="average-quality">
+                                    <StarRating
+                                        heading={"Difficulty"}
+                                        rating={parseFloat(
+                                            video.averageDifficulty
                                         )} // Pass average quality as rating
                                     />
                                 </div>

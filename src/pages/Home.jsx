@@ -16,6 +16,7 @@ function Home() {
     const [data, setData] = useState(null);
     const [videoId, setVideoId] = useState("");
     const [averageQuality, setAverageQuality] = useState(null); // State to store average quality
+    const [averageDifficulty, setAverageDifficulty] = useState(null); // State to store average difficulty
 
     const getComments = async (videoId) => {
         try {
@@ -53,10 +54,19 @@ function Home() {
             const qualityRatings = response.data.map(
                 (comment) => comment.quality
             );
-            const average =
+            const average1 =
                 qualityRatings.reduce((acc, rating) => acc + rating, 0) /
                 qualityRatings.length;
-            setAverageQuality(average.toFixed(2)); // Set average with 2 decimal places
+            setAverageQuality(average1.toFixed(2)); // Set average with 2 decimal places
+
+            // Calculate average difficulty after getting the rated comments
+            const difficultyRatings = response.data.map(
+                (comment) => comment.quality
+            );
+            const average2 =
+                difficultyRatings.reduce((acc, rating) => acc + rating, 0) /
+                difficultyRatings.length;
+            setAverageDifficulty(average2.toFixed(2)); // Set average with 2 decimal places
         } catch (error) {
             console.error("Error in getRatedComments", error);
         }
@@ -103,7 +113,21 @@ function Home() {
             {/* Display average quality rating before the comments */}
             {averageQuality !== null && (
                 <div className="average-quality">
-                    <StarRating rating={parseFloat(averageQuality)} />{" "}
+                    <StarRating
+                        heading={"Quality"}
+                        rating={parseFloat(averageQuality)}
+                    />{" "}
+                    {/* Pass rating to the StarRating component */}
+                </div>
+            )}
+
+            {/* Display average difficulty rating before the comments */}
+            {averageDifficulty !== null && (
+                <div className="average-quality">
+                    <StarRating
+                        heading={"Difficulty"}
+                        rating={parseFloat(averageDifficulty)}
+                    />{" "}
                     {/* Pass rating to the StarRating component */}
                 </div>
             )}
