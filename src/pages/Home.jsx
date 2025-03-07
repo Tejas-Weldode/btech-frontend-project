@@ -61,7 +61,7 @@ function Home() {
 
             // Calculate average difficulty after getting the rated comments
             const difficultyRatings = response.data.map(
-                (comment) => comment.quality
+                (comment) => comment.difficulty
             );
             const average2 =
                 difficultyRatings.reduce((acc, rating) => acc + rating, 0) /
